@@ -34,14 +34,14 @@ def search_in_trie(chars, trie):
     index=0
     for char in chars:
         if ref.has_key(char):
-            print char,
+            #print char,
             ref=ref[char] 
             index+=1
         else:
             if index==0:
                 index=1
-                print char, 
-            print '*',
+            #    print char, 
+            #print '*',
             try:
                 chars=chars[index:]
                 search_in_trie(chars, trie)
@@ -53,12 +53,15 @@ def main():
     words=init_wordslist()
     trie=words_2_trie(words)
     #read content
-    fn=sys.argv[1]
-    string=open(fn).read()
-    chars=regex.findall(string)
-    
-    #do the job
-    search_in_trie(chars, trie)
+    fn= sys.argv[1]
+    lines=open(fn).readlines()
+    index=1
+    for line in lines:
+        print "\nline %d:\n%s\n" % (index, "*" * 80 )
+        chars=regex.findall(line) 
+        #do the job
+        search_in_trie(chars, trie)
+        index += 1
 
 if __name__=='__main__':
     main()
