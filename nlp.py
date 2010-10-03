@@ -28,38 +28,49 @@ def words_2_trie(wordslist):
             ref=ref[char]
         ref['']=1
     return d
+DEBUG=1
 
-def search_in_trie(chars, trie):
-    ref=trie
-    index=0
-    for char in chars:
-        if ref.has_key(char):
-            #print char,
-            ref=ref[char] 
-            index+=1
+def search_in_trie(chars, trie): 
+    print 
+    while len(chars)>=1:
+        ref=trie
+        index=0
+        state=[]
+        for char in chars:
+            if ref.has_key(char):
+#                print char, 'h'
+                if ref[char].has_key(""):
+#                    print char,'e'
+                    state.append(index)
+                    #ref=trie
+                    #break
+                    ref=ref[char]
+            else:
+#                print char, 'nk'
+                break
+            index += 1
+        if not state or state[-1]==0:
+            index=1
+            print chars[0],"*",
+            chars=chars[1:]
         else:
-            if index==0:
-                index=1
-            #    print char, 
-            #print '*',
-            try:
-                chars=chars[index:]
-                search_in_trie(chars, trie)
-            except:
-                pass
-            break
+            index=state[-1]+1
+            print ''.join(chars[:index]), "*",
+            chars=chars[index:]
+        
+           
 def main():
     #init
     words=init_wordslist()
+    i=0
     trie=words_2_trie(words)
     #read content
     fn= sys.argv[1]
     lines=open(fn).readlines()
     index=1
     for line in lines:
-        print "\nline %d:\n%s\n" % (index, "*" * 80 )
+    
         chars=regex.findall(line) 
-        #do the job
         search_in_trie(chars, trie)
         index += 1
 
