@@ -38,15 +38,10 @@ def search_in_trie(chars, trie):
         state=[]
         for char in chars:
             if ref.has_key(char):
-#                print char, 'h'
                 if ref[char].has_key(""):
-#                    print char,'e'
                     state.append(index)
-                    #ref=trie
-                    #break
                     ref=ref[char]
             else:
-#                print char, 'nk'
                 break
             index += 1
         if not state or state[-1]==0:
